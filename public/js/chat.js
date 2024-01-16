@@ -38,9 +38,7 @@ const autoscroll = () => {
     }
 }
 
-console.log(username, room)
 socket.on('locationMessage', (message, callback) => {
-    console.log(message)
     const html = Mustache.render(locationTemplate, {
         username: message.username,
         url: message.url,
@@ -51,7 +49,6 @@ socket.on('locationMessage', (message, callback) => {
 })
 
 socket.on('message', (message) => {
-    console.log(message)
     const html = Mustache.render(messageTemplate, {
         username: message.username,
         message: message.text,
@@ -81,7 +78,12 @@ document.querySelector('#message_form').addEventListener('submit', (e) => {
         $messageFormInput.value = ''
         $messageFormInput.focus()
         if (error) {
-            return console.log(error)
+            $messageFormInput.setAttribute('placeholder', error)
+            setTimeout(() => {
+
+                $messageFormInput.setAttribute('placeholder', 'type your message')
+            }, 2000)
+            return
         }
 
         console.log('message delivered')
